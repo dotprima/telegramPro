@@ -13,11 +13,12 @@ return new class extends Migration
     {
         Schema::create('translations', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('translation_key_id');
+            $table->text('translation');
             $table->unsignedBigInteger('language_id');
-            $table->string('key');
-            $table->text('value');
             $table->timestamps();
 
+            $table->foreign('translation_key_id')->references('id')->on('translation_keys');
             $table->foreign('language_id')->references('id')->on('languages');
         });
     }

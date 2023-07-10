@@ -3,15 +3,15 @@
 namespace App\Repositories;
 
 use Illuminate\Support\Facades\DB;
-use App\Repositories\ChatGPT;
+use App\Repositories\ChatGPTRepository;
 use Telegram\Bot\FileUpload\InputFile;
 use Telegram\Bot\Laravel\Facades\Telegram;
-use App\Repositories\Helper;
+use App\Repositories\HelperRepository;
 
-class Conversation
+class ConversationRepository
 {
 
-    private $ChatGPT, $Helper;
+   
 
     public $keyboard =  [
         [
@@ -25,11 +25,16 @@ class Conversation
         ]
     ];
 
+    private $chatGPTRepository;
+    private $helperRepository;
 
-    public function __construct(ChatGPT $ChatGPT, Helper $Helper)
-    {
-        $this->ChatGPT = $ChatGPT;
-        $this->Helper = $Helper;
+
+    public function __construct(
+        ChatGPTRepository $chatGPTRepository,
+        HelperRepository $helperRepository,
+    ) {
+        $this->chatGPTRepository = $chatGPTRepository;
+        $this->helperRepository = $helperRepository;
     }
 
     public function Chat($message, $chat_id, $chatMode, $question, $user)

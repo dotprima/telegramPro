@@ -4,7 +4,7 @@ namespace App\Repositories;
 
 use Orhanerday\OpenAi\OpenAi;
 
-class ChatGPT
+class ChatGPTRepository
 {
 
     public function Chat($message){

@@ -6,7 +6,12 @@ use Illuminate\Database\Eloquent\Model;
 
 class Translation extends Model
 {
-    protected $fillable = ['language_id', 'key', 'value'];
+    protected $fillable = ['translation', 'language_id'];
+
+    public function translationKey()
+    {
+        return $this->belongsTo(TranslationKey::class);
+    }
 
     public function language()
     {

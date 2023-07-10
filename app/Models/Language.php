@@ -13,8 +13,8 @@ class Language extends Model
         return $this->hasMany(Translation::class);
     }
 
-    public function users()
+    public function translationKeys()
     {
-        return $this->hasMany(Client::class);
+        return $this->hasManyThrough(TranslationKey::class, Translation::class);
     }
 }

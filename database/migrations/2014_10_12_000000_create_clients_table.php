@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('username');
             $table->integer('quota')->default(0);
             $table->enum('status', ['trial', 'premium'])->default('trial');
-            $table->unsignedBigInteger('language_id');
+            $table->unsignedBigInteger('language_id')->nullable();
             $table->foreign('language_id')->references('id')->on('languages');
             $table->timestamps();
         });

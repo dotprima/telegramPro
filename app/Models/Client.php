@@ -14,6 +14,7 @@ class Client extends Model
         'first_name',
         'username',
         'quota',
+        'language_id'
     ];
 
     public function messages()
