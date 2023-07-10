@@ -2,11 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Client;
-use App\Models\Language;
 use App\Repositories\ClientRepository;
 use App\Repositories\ConversationRepository;
-use App\Repositories\Helper;
 use App\Repositories\HelperRepository;
 use App\Repositories\KeyboardRepository;
 use App\Repositories\LanguageRepository;
@@ -53,7 +50,7 @@ class TelegramBot extends Controller
             $message = $updates->getMessage()->getText();
 
             switch ($message) {
-                case '/help':
+                case 'Help':
                     $message = 'Hello, Selamat Datang di Bot ChatGPT';
                     break;
                 case 'Check Quota':
@@ -64,6 +61,9 @@ class TelegramBot extends Controller
                     $user = $this->clientRepository->ResetLanguage($user_id);
                     $message = 'Silahkan Pilih Bahasa';
                     $reply_markup = $this->helperRepository->KeyShortcut($this->keyboardRepository->getKeyboardLanguage());
+                    break;
+                case 'Fill Quota':
+                    $message = 'Silahkan Chat Admin @primjs';
                     break;
                 case 'Chat Admin':
                     $message = 'Silahkan Chat Admin @primjs';
@@ -85,7 +85,6 @@ class TelegramBot extends Controller
 
                             if ($language) {
                                 $this->clientRepository->setLanguage($user, $language->id);
-
 
                                 $message = 'Bahasa telah dipilih dan disimpan';
                             } else {

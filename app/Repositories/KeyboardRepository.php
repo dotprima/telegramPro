@@ -22,7 +22,7 @@ class KeyboardRepository
                 ['text' => 'Change Language', 'callback_data' => 'Change Language'],
             ],
             [
-                ['text' => 'Help', 'callback_data' => '/help']
+                ['text' => 'Help', 'callback_data' => 'Help']
             ]
         ];
 
