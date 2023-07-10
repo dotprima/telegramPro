@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use Illuminate\Http\Request;
 use App\Models\Message;
-use App\Models\User;
+use App\Models\Client;
 use App\Repositories\Helper;
 use App\Repositories\Conversation;
 class TelegramBot extends Controller
@@ -21,14 +21,9 @@ class TelegramBot extends Controller
 
     public function setWebhook()
     {
-        // $response = Telegram::setWebhook(['url' => env('TELEGRAM_WEBHOOK_URL')]);
-        // dd($response);
-        $messageModel = Message::create([
-            'user_id' => 5896267480,
-            'question' => 'sd',
-            'answer' => 'sd',
-            'request_price' => 2, // Sesuaikan dengan nilai yang sesuai
-        ]);
+        $response = Telegram::setWebhook(['url' => env('TELEGRAM_WEBHOOK_URL')]);
+        dd($response);
+       
     }
 
 
@@ -43,7 +38,7 @@ class TelegramBot extends Controller
             if ($message === '/help') {
                 $message = 'Hello, Selamat Datang di Bot ChatGPT';
             } elseif ($message === 'Check Quota') {
-                $user = User::where('user_id', $user_id)->first();
+                $user = Client::where('user_id', $user_id)->first();
                 $message = $user ? 'Kuota Anda adalah ' . $user->quota : 'Anda belum terdaftar';
             } elseif ($message === 'Fill Quota') {
                 // Lakukan tindakan yang sesuai untuk mengisi kuota
@@ -51,7 +46,7 @@ class TelegramBot extends Controller
             } elseif ($message === 'Chat Admin') {
                 $message = 'Silahkan Chat Admin @primjs';
             } else {
-                $user = User::firstOrNew(['user_id' => $user_id]);
+                $user = Client::firstOrNew(['user_id' => $user_id]);
 
                 if (!$user->exists) {
                     $user->fill([
