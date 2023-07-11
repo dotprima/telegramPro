@@ -13,18 +13,40 @@ class ProfileController extends Controller
 {
     /**
      * Display the user's profile form.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\View\View
      */
-    public function edit(Request $request): View
+
+    public function profil(Request $request)
+     {
+         return view('profile.profile', [
+             'user' => $request->user(),
+         ]);
+    }
+
+
+    public function profileAccount(Request $request)
     {
-        return view('profile.edit', [
+        return view('profile.profileAccount', [
+            'user' => $request->user(),
+        ]);
+    }
+
+    public function profileSecurity(Request $request)
+    {
+        return view('profile.profileSecurity', [
             'user' => $request->user(),
         ]);
     }
 
     /**
      * Update the user's profile information.
+     *
+     * @param  \App\Http\Requests\ProfileUpdateRequest  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function update(ProfileUpdateRequest $request): RedirectResponse
+    public function update(ProfileUpdateRequest $request)
     {
         $request->user()->fill($request->validated());
 
@@ -39,11 +61,14 @@ class ProfileController extends Controller
 
     /**
      * Delete the user's account.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
      */
-    public function destroy(Request $request): RedirectResponse
+    public function destroy(Request $request)
     {
         $request->validateWithBag('userDeletion', [
-            'password' => ['required', 'current_password'],
+            'password' => ['required', 'current-password'],
         ]);
 
         $user = $request->user();
@@ -55,6 +80,9 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return response()->json([
+            'success' => true,
+            'message' => 'Akun Berhasil Dihapus',  
+        ]);
     }
 }

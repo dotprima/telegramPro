@@ -34,10 +34,10 @@ class TelegramBot extends Controller
 
     public function setWebhook()
     {
-        // $response = Telegram::setWebhook(['url' => env('TELEGRAM_WEBHOOK_URL')]);
-        // dd($response);
+        $response = Telegram::setWebhook(['url' => env('TELEGRAM_WEBHOOK_URL')]);
+        dd($response);
 
-        echo $reply_markup = $this->helperRepository->KeyShortcut($this->keyboardRepository->getKeyboardLanguage());
+       
 
     }
 
