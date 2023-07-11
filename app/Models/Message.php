@@ -18,8 +18,8 @@ class Message extends Model
 
     public $table = 'messages';
 
-    public function user()
+    public function client()
     {
-        return $this->belongsTo(Client::class);
+        return $this->belongsTo(Client::class,'user_id');
     }
 }

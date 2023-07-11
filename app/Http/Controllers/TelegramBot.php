@@ -94,8 +94,7 @@ class TelegramBot extends Controller
 
                         } elseif ($user->quota > 0) {
                             $user->decrement('quota'); // Mengurangi nilai kuota sebanyak 1
-                            // $message = $this->Conversation->Chat($message,$user_id,$user['chatMode'],$message,$user);
-                            $message = 'ca';
+                            $message = $this->conversationRepository->Chat($message,$user_id,$user['chatMode'],$message,$user);
                         } else {
                             $message = 'Maaf, tidak ada kuota';
                         }
