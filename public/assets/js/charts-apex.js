@@ -32,7 +32,8 @@
       series1: '#fee802',
       series2: '#3fd0bd',
       series3: '#826bf8',
-      series4: '#2b9bf4'
+      series4: '#2b9bf4',
+      series5: '#3b9bf4',
     },
     area: {
       series1: '#29dac7',
@@ -985,150 +986,165 @@
     radarChart.render();
   }
 
-  // Donut Chart
+  var chart1 = [];
   // --------------------------------------------------------------------
-  const donutChartEl = document.querySelector('#donutChart'),
-    donutChartConfig = {
-      chart: {
-        height: 390,
-        type: 'donut'
-      },
-      labels: ['Operational', 'Networking', 'Hiring', 'R&D'],
-      series: [42, 7, 25, 25],
-      colors: [
-        chartColors.donut.series1,
-        chartColors.donut.series4,
-        chartColors.donut.series3,
-        chartColors.donut.series2
-      ],
-      stroke: {
-        show: false,
-        curve: 'straight'
-      },
-      dataLabels: {
-        enabled: true,
-        formatter: function (val, opt) {
-          return parseInt(val, 10) + '%';
-        }
-      },
-      legend: {
-        show: true,
-        position: 'bottom',
-        markers: { offsetX: -3 },
-        itemMargin: {
-          vertical: 3,
-          horizontal: 10
+  // AJAX request to retrieve data for chart1
+  $.ajax({
+    url: "/ajax/chart1",
+    type: "GET",
+    success: function (response) {
+      let responseArray = JSON.parse(response);
+      let chart1count = responseArray.reduce((sum, value) => sum + value, 0);
+
+      // Continue with the rest of your JavaScript code
+      const donutChartEl = document.querySelector('#donutChart');
+      const donutChartConfig = {
+        chart: {
+          height: 390,
+          type: 'donut'
         },
-        labels: {
-          colors: legendColor,
-          useSeriesColors: false
-        }
-      },
-      plotOptions: {
-        pie: {
-          donut: {
-            labels: {
-              show: true,
-              name: {
-                fontSize: '2rem',
-                fontFamily: 'Open Sans'
-              },
-              value: {
-                fontSize: '1.2rem',
-                color: legendColor,
-                fontFamily: 'Open Sans',
-                formatter: function (val) {
-                  return parseInt(val, 10) + '%';
-                }
-              },
-              total: {
-                show: true,
-                fontSize: '1.5rem',
-                color: headingColor,
-                label: 'Operational',
-                formatter: function (w) {
-                  return '42%';
-                }
-              }
-            }
+        labels: ['Attitude', 'Subjective Norm', 'Perceived behavioural control', 'Environmental concern', 'Purchase intention'],
+        series: responseArray,
+        colors: [
+          chartColors.donut.series1,
+          chartColors.donut.series4,
+          chartColors.donut.series3,
+          chartColors.donut.series2,
+          chartColors.donut.series5
+        ],
+        stroke: {
+          show: false,
+          curve: 'straight'
+        },
+        dataLabels: {
+          enabled: true,
+          formatter: function (val, opt) {
+            return parseInt(val, 10) + '%';
           }
-        }
-      },
-      responsive: [
-        {
-          breakpoint: 992,
-          options: {
-            chart: {
-              height: 380
-            },
-            legend: {
-              position: 'bottom',
+        },
+        legend: {
+          show: true,
+          position: 'bottom',
+          markers: { offsetX: -3 },
+          itemMargin: {
+            vertical: 3,
+            horizontal: 10
+          },
+          labels: {
+            colors: legendColor,
+            useSeriesColors: false
+          }
+        },
+        plotOptions: {
+          pie: {
+            donut: {
               labels: {
-                colors: legendColor,
-                useSeriesColors: false
-              }
-            }
-          }
-        },
-        {
-          breakpoint: 576,
-          options: {
-            chart: {
-              height: 320
-            },
-            plotOptions: {
-              pie: {
-                donut: {
-                  labels: {
-                    show: true,
-                    name: {
-                      fontSize: '1.5rem'
-                    },
-                    value: {
-                      fontSize: '1rem'
-                    },
-                    total: {
-                      fontSize: '1.5rem'
-                    }
+                show: true,
+                name: {
+                  fontSize: '2rem',
+                  fontFamily: 'Open Sans'
+                },
+                value: {
+                  fontSize: '1.2rem',
+                  color: legendColor,
+                  fontFamily: 'Open Sans',
+                  formatter: function (val) {
+                    let percentage = ((val / chart1count) * 100).toFixed(0); // Calculate percentage and round it
+                    return percentage + '%';
+                  }
+                },
+                total: {
+                  show: true,
+                  fontSize: '1.5rem',
+                  color: headingColor,
+                  label: 'Total Data Score',
+                  formatter: function (w) {
+                    return chart1count; // Display the total count
                   }
                 }
               }
-            },
-            legend: {
-              position: 'bottom',
-              labels: {
-                colors: legendColor,
-                useSeriesColors: false
+            }
+          }
+        },
+        responsive: [
+          {
+            breakpoint: 992,
+            options: {
+              chart: {
+                height: 380
+              },
+              legend: {
+                position: 'bottom',
+                labels: {
+                  colors: legendColor,
+                  useSeriesColors: false
+                }
+              }
+            }
+          },
+          {
+            breakpoint: 576,
+            options: {
+              chart: {
+                height: 320
+              },
+              plotOptions: {
+                pie: {
+                  donut: {
+                    labels: {
+                      show: true,
+                      name: {
+                        fontSize: '1.5rem'
+                      },
+                      value: {
+                        fontSize: '1rem'
+                      },
+                      total: {
+                        fontSize: '1.5rem'
+                      }
+                    }
+                  }
+                }
+              },
+              legend: {
+                position: 'bottom',
+                labels: {
+                  colors: legendColor,
+                  useSeriesColors: false
+                }
+              }
+            }
+          },
+          {
+            breakpoint: 420,
+            options: {
+              chart: {
+                height: 280
+              },
+              legend: {
+                show: false
+              }
+            }
+          },
+          {
+            breakpoint: 360,
+            options: {
+              chart: {
+                height: 250
+              },
+              legend: {
+                show: false
               }
             }
           }
-        },
-        {
-          breakpoint: 420,
-          options: {
-            chart: {
-              height: 280
-            },
-            legend: {
-              show: false
-            }
-          }
-        },
-        {
-          breakpoint: 360,
-          options: {
-            chart: {
-              height: 250
-            },
-            legend: {
-              show: false
-            }
-          }
-        }
-      ]
-    };
-  if (typeof donutChartEl !== undefined && donutChartEl !== null) {
-    const donutChart = new ApexCharts(donutChartEl, donutChartConfig);
-    donutChart.render();
-  }
+        ]
+      };
+
+      // Initialize the chart
+      new ApexCharts(donutChartEl, donutChartConfig).render();
+    },
+    error: function (xhr) {
+
+    }
+  });
 })();

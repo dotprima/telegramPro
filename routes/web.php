@@ -3,7 +3,7 @@
 use App\Http\Controllers\LanguageController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-
+use App\Http\Controllers\DataController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,10 +14,15 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
  */
+Route::get('/data', [DataController::class, 'index'])->name('data');
+
+Route::get('/ajax/chart1', [DataController::class, 'chart1'])->name('chart1');
+
 
 Route::get('/', function () {
     return view('welcome');
 });
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
